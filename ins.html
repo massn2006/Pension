@@ -39,7 +39,7 @@
         .header {
             background: var(--white);
             box-shadow: var(--shadow);
-            padding: 1rem 0;
+            padding: 0.5rem 0;
             margin-bottom: 2rem;
         }
 
@@ -59,16 +59,14 @@
         }
 
         .logo {
-            width: 120px;
-            height: 40px;
-            background: var(--britam-blue);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-weight: 700;
-            font-size: 1.2rem;
+            height: 60px;
+            width: auto;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
         }
 
         .tagline {
@@ -94,7 +92,7 @@
         .card-header {
             background: linear-gradient(135deg, var(--britam-blue) 0%, var(--britam-dark-blue) 100%);
             color: var(--white);
-            padding: 2rem;
+            padding: 1.2rem;
             text-align: center;
         }
 
@@ -158,7 +156,6 @@
             transform: translateY(-50%);
             color: var(--text-secondary);
             font-size: 1.1rem;
-            margin-top: 1.2rem;
         }
 
         .calculate-btn {
@@ -185,150 +182,6 @@
 
         .calculate-btn:active {
             transform: translateY(0);
-        }
-
-        .results-section {
-            margin-top: 2rem;
-            display: none;
-        }
-
-        .results-section.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .results-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: var(--britam-light-blue);
-            border-radius: 12px;
-        }
-
-        .results-header h2 {
-            color: var(--britam-dark-blue);
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .results-grid {
-            display: grid;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .result-card {
-            background: var(--white);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .result-card:hover {
-            border-color: var(--britam-blue);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .result-card h3 {
-            color: var(--britam-blue);
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .result-item:last-child {
-            border-bottom: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .result-label {
-            color: var(--text-secondary);
-        }
-
-        .result-value {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .result-value.highlight {
-            color: var(--success-green);
-            font-size: 1.1rem;
-        }
-
-        .total-card {
-            background: linear-gradient(135deg, var(--britam-blue) 0%, var(--britam-dark-blue) 100%);
-            color: var(--white);
-            border: none;
-        }
-
-        .total-card h3 {
-            color: var(--white);
-        }
-
-        .total-card .result-label {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .total-card .result-value {
-            color: var(--white);
-            font-size: 1.2rem;
-        }
-
-        .assumptions {
-            background: var(--background);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .assumptions h4 {
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .assumptions ul {
-            list-style: none;
-            color: var(--text-secondary);
-        }
-
-        .assumptions li {
-            padding: 0.25rem 0;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .assumptions li::before {
-            content: "•";
-            color: var(--britam-blue);
-            position: absolute;
-            left: 0;
         }
 
         .error-message {
@@ -364,10 +217,6 @@
                 gap: 0.5rem;
                 text-align: center;
             }
-
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         .loading {
@@ -393,14 +242,165 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideInModal 0.3s ease;
+        }
+
+        @keyframes slideInModal {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--britam-blue) 0%, var(--britam-dark-blue) 100%);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .modal-form-group {
+            position: relative;
+        }
+
+        .modal-form-label {
+            display: block;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .modal-form-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .modal-form-input:focus {
+            outline: none;
+            border-color: var(--britam-blue);
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+        }
+
+        .modal-input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--britam-blue) 0%, var(--britam-dark-blue) 100%);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-content">
             <div class="logo-section">
-                <div class="logo">Britam</div>
-                <div class="tagline">With you every step of the way</div>
+                <div class="logo">
+                    <img src="britam-logo.jpg" alt="Britam - With you every step of the way">
+                </div>
             </div>
         </div>
     </header>
@@ -427,7 +427,7 @@
                             <label class="form-label" for="salary">Current Monthly Salary (KES)</label>
                             <div style="position: relative;">
                                 <i class="fas fa-money-bill input-icon"></i>
-                                <input type="number" id="salary" class="form-input" min="0" placeholder="e.g. 50,000">
+                                <input type="text" id="salary" class="form-input" placeholder="Kshs 50,000">
                             </div>
                         </div>
 
@@ -435,80 +435,66 @@
                             <label class="form-label" for="voluntary">Voluntary Monthly Contribution (KES)</label>
                             <div style="position: relative;">
                                 <i class="fas fa-piggy-bank input-icon"></i>
-                                <input type="number" id="voluntary" class="form-input" min="0" placeholder="e.g. 10,000">
+                                <input type="text" id="voluntary" class="form-input" placeholder="Kshs 1,500">
                             </div>
                         </div>
                     </div>
 
-                    <button class="calculate-btn" onclick="calculatePension()">
+                    <button class="calculate-btn" onclick="openShareModal()">
                         <span class="loading">
                             <div class="spinner"></div>
                             Calculating...
                         </span>
                         <span class="btn-text">
-                            <i class="fas fa-chart-line"></i>
-                            Calculate My Pension
+                            <i class="fas fa-share-alt"></i>
+                            Share My Pension on Email
                         </span>
                     </button>
 
                     <div class="error-message" id="error-message"></div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="results-section" id="results-section">
-                    <div class="results-header">
-                        <h2><i class="fas fa-chart-pie"></i> Your Pension Projection at Age 60</h2>
-                        <p>Based on current contributions and market assumptions</p>
-                    </div>
-
-                    <div class="results-grid">
-                        <div class="result-card">
-                            <h3><i class="fas fa-shield-alt"></i> Tier II (NSSF)</h3>
-                            <div class="result-item">
-                                <span class="result-label">Lump Sum at Retirement</span>
-                                <span class="result-value" id="tier2-lump"></span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-label">Monthly Pension</span>
-                                <span class="result-value highlight" id="tier2-monthly"></span>
-                            </div>
-                        </div>
-
-                        <div class="result-card">
-                            <h3><i class="fas fa-plus-circle"></i> Voluntary Contributions</h3>
-                            <div class="result-item">
-                                <span class="result-label">Lump Sum at Retirement</span>
-                                <span class="result-value" id="voluntary-lump"></span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-label">Monthly Pension</span>
-                                <span class="result-value highlight" id="voluntary-monthly"></span>
-                            </div>
-                        </div>
-
-                        <div class="result-card total-card">
-                            <h3><i class="fas fa-trophy"></i> Total Benefits</h3>
-                            <div class="result-item">
-                                <span class="result-label">Total Lump Sum</span>
-                                <span class="result-value" id="total-lump"></span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-label">Total Monthly Pension</span>
-                                <span class="result-value" id="total-monthly"></span>
-                            </div>
+    <!-- Modal for sharing pension details -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-share-alt"></i> Share Your Pension Calculation</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="modal-form" onsubmit="submitShareForm(event)">
+                    <div class="modal-form-group">
+                        <label class="modal-form-label" for="userName">Full Name</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-user modal-input-icon"></i>
+                            <input type="text" id="userName" class="modal-form-input" placeholder="Enter your full name" required>
                         </div>
                     </div>
 
-                    <div class="assumptions">
-                        <h4><i class="fas fa-info-circle"></i> Calculation Assumptions</h4>
-                        <ul>
-                            <li>Annual investment return: 10% (compounded monthly)</li>
-                            <li>Retirement age: 60 years</li>
-                            <li>Annuity conversion factor: 0.0065 per month</li>
-                            <li>Tier II contributions: 12% of salary (capped at KES 72,000)</li>
-                            <li>Calculations are estimates and actual results may vary</li>
-                        </ul>
+                    <div class="modal-form-group">
+                        <label class="modal-form-label" for="userEmail">Email Address</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-envelope modal-input-icon"></i>
+                            <input type="email" id="userEmail" class="modal-form-input" placeholder="Enter your email address" required>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="modal-form-group">
+                        <label class="modal-form-label" for="userPhone">Phone Number</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-phone modal-input-icon"></i>
+                            <input type="tel" id="userPhone" class="modal-form-input" placeholder="Enter your phone number" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Share My Pension Results
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -547,9 +533,61 @@
             }
         }
 
+        function openShareModal() {
+            const modal = document.getElementById('shareModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('shareModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto'; // Restore background scrolling
+            
+            // Clear form
+            document.getElementById('userName').value = '';
+            document.getElementById('userEmail').value = '';
+            document.getElementById('userPhone').value = '';
+        }
+
+        function submitShareForm(event) {
+            event.preventDefault();
+            
+            // Get user details
+            const userName = document.getElementById('userName').value;
+            const userEmail = document.getElementById('userEmail').value;
+            const userPhone = document.getElementById('userPhone').value;
+
+            // Validate form
+            if (!userName || !userEmail || !userPhone) {
+                showError('Please fill in all fields.');
+                return;
+            }
+
+            // Store user details for later use
+            window.userDetails = {
+                name: userName,
+                email: userEmail,
+                phone: userPhone
+            };
+
+            // Close modal
+            closeModal();
+
+            // Calculate pension and show results
+            calculatePension();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('shareModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
         function calculatePension() {
-            // Clear previous results and errors
-            document.getElementById('results-section').classList.remove('show');
+            // Clear previous errors
             document.getElementById('error-message').classList.remove('show');
             
             // Show loading state
@@ -571,8 +609,8 @@
 
             // Get inputs
             const age = parseInt(document.getElementById('age').value);
-            const salary = parseFloat(document.getElementById('salary').value);
-            const voluntary = parseFloat(document.getElementById('voluntary').value);
+            const salary = getNumericValue(document.getElementById('salary'));
+            const voluntary = getNumericValue(document.getElementById('voluntary'));
 
             // Validation
             if (isNaN(age) || isNaN(salary) || isNaN(voluntary)) {
@@ -623,22 +661,29 @@
             const totalLumpSum = tier2Total + voluntaryTotal;
             const totalMonthlyPension = monthlyPensionTier2 + monthlyPensionVoluntary;
 
-            // Display results
-            document.getElementById('tier2-lump').textContent = formatKES(tier2Total);
-            document.getElementById('tier2-monthly').textContent = formatKES(monthlyPensionTier2);
-            document.getElementById('voluntary-lump').textContent = formatKES(voluntaryTotal);
-            document.getElementById('voluntary-monthly').textContent = formatKES(monthlyPensionVoluntary);
-            document.getElementById('total-lump').textContent = formatKES(totalLumpSum);
-            document.getElementById('total-monthly').textContent = formatKES(totalMonthlyPension);
+            // Prepare data for results page
+            const resultData = {
+                userDetails: window.userDetails,
+                results: {
+                    tier2Total,
+                    monthlyPensionTier2,
+                    voluntaryTotal,
+                    monthlyPensionVoluntary,
+                    totalLumpSum,
+                    totalMonthlyPension
+                },
+                inputs: {
+                    age,
+                    salary,
+                    voluntary
+                }
+            };
 
-            // Show results with animation
-            document.getElementById('results-section').classList.add('show');
-            
-            // Scroll to results
-            document.getElementById('results-section').scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            // Store data in localStorage as backup
+            localStorage.setItem('pensionResults', JSON.stringify(resultData));
+
+            // Redirect to results page
+            window.location.href = `results.html?data=${encodeURIComponent(JSON.stringify(resultData))}`;
         }
 
         // Add input event listeners for better UX
@@ -648,7 +693,19 @@
                 input.addEventListener('input', function() {
                     // Clear error when user starts typing
                     document.getElementById('error-message').classList.remove('show');
+                    
+                    // Format currency fields with commas
+                    if (input.id === 'salary' || input.id === 'voluntary') {
+                        formatCurrencyInput(input);
+                    }
                 });
+                
+                // Add keypress validation for currency fields
+                if (input.id === 'salary' || input.id === 'voluntary') {
+                    input.addEventListener('keydown', function(e) {
+                        handleKeyPress(e, input);
+                    });
+                }
                 
                 // Add enter key support
                 input.addEventListener('keypress', function(e) {
@@ -658,6 +715,44 @@
                 });
             });
         });
+
+        function formatCurrencyInput(input) {
+            // Get the current value and remove any existing commas and non-numeric characters
+            let value = input.value.replace(/[^0-9]/g, '');
+            
+            // Only proceed if the value is not empty
+            if (value !== '') {
+                // Convert to number and format with commas
+                const numericValue = parseInt(value);
+                const formattedValue = numericValue.toLocaleString('en-US');
+                
+                // Update the input value
+                input.value = formattedValue;
+            }
+        }
+
+        function getNumericValue(input) {
+            // Remove commas and non-numeric characters, then convert to number
+            const cleanValue = input.value.replace(/[^0-9]/g, '');
+            return parseInt(cleanValue) || 0;
+        }
+
+        // Add keypress event to prevent non-numeric input (except backspace, delete, etc.)
+        function handleKeyPress(event, input) {
+            // Allow: backspace, delete, tab, escape, enter
+            if ([8, 9, 27, 13, 46].indexOf(event.keyCode) !== -1 ||
+                // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                (event.keyCode === 65 && event.ctrlKey === true) ||
+                (event.keyCode === 67 && event.ctrlKey === true) ||
+                (event.keyCode === 86 && event.ctrlKey === true) ||
+                (event.keyCode === 88 && event.ctrlKey === true)) {
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((event.shiftKey || (event.keyCode < 48 || event.keyCode > 57)) && (event.keyCode < 96 || event.keyCode > 105)) {
+                event.preventDefault();
+            }
+        }
     </script>
 </body>
 </html>

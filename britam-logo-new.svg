@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <!-- Britam Text with proper styling -->
+  <text x="10" y="75" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="bold" fill="#1976D2">
+    Britam
+  </text>
+  
+  <!-- Red dot accent positioned over the "i" -->
+  <circle cx="260" cy="25" r="8" fill="#D32F2F"/>
+  
+  <!-- Tagline in red -->
+  <text x="10" y="105" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" fill="#D32F2F">
+    With you every step of the way
+  </text>
+</svg>
