@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Britam Pension Calculator - Plan Your Future</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --britam-blue: #1E88E5;
+            --britam-dark-blue: #1565C0;
+            --britam-light-blue: #E3F2FD;
+            --success-green: #4CAF50;
+            --warning-orange: #FF9800;
+            --text-primary: #2C3E50;
+            --text-secondary: #7B8794;
+            --background: #F8FAFC;
+            --white: #FFFFFF;
+            --border: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--background) 0%, var(--britam-light-blue) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 120px;
+            height: 40px;
+            background: var(--britam-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .main-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--britam-blue) 0%, var(--britam-dark-blue) 100%);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--britam-blue);
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-top: 1.2rem;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--britam-blue) 0%, var(--britam-dark-blue) 100%);
+            color: var(--white);
+            border: none;
+            padding: 1.2rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+
+        .results-section {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--britam-light-blue);
+            border-radius: 12px;
+        }
+
+        .results-header h2 {
+            color: var(--britam-dark-blue);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            border-color: var(--britam-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .result-card h3 {
+            color: var(--britam-blue);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .result-label {
+            color: var(--text-secondary);
+        }
+
+        .result-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .result-value.highlight {
+            color: var(--success-green);
+            font-size: 1.1rem;
+        }
+
+        .total-card {
+            background: linear-gradient(135deg, var(--britam-blue) 0%, var(--britam-dark-blue) 100%);
+            color: var(--white);
+            border: none;
+        }
+
+        .total-card h3 {
+            color: var(--white);
+        }
+
+        .total-card .result-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .total-card .result-value {
+            color: var(--white);
+            font-size: 1.2rem;
+        }
+
+        .assumptions {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .assumptions h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .assumptions ul {
+            list-style: none;
+            color: var(--text-secondary);
+        }
+
+        .assumptions li {
+            padding: 0.25rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .assumptions li::before {
+            content: "•";
+            color: var(--britam-blue);
+            position: absolute;
+            left: 0;
+        }
+
+        .error-message {
+            background: #FEF2F2;
+            border: 2px solid #FECACA;
+            color: #DC2626;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .card-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .loading.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid var(--white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">Britam</div>
+                <div class="tagline">With you every step of the way</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-card">
+            <div class="card-header">
+                <h1><i class="fas fa-calculator"></i> Pension Calculator</h1>
+                <p>Plan your retirement with confidence - Calculate your Tier II and Voluntary pension benefits</p>
+            </div>
+            
+            <div class="card-body">
+                <div class="form-section">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="age">Current Age</label>
+                            <div style="position: relative;">
+                                <i class="fas fa-user input-icon"></i>
+                                <input type="number" id="age" class="form-input" min="18" max="59" placeholder="e.g. 30">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="salary">Current Monthly Salary (KES)</label>
+                            <div style="position: relative;">
+                                <i class="fas fa-money-bill input-icon"></i>
+                                <input type="number" id="salary" class="form-input" min="0" placeholder="e.g. 50,000">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="voluntary">Voluntary Monthly Contribution (KES)</label>
+                            <div style="position: relative;">
+                                <i class="fas fa-piggy-bank input-icon"></i>
+                                <input type="number" id="voluntary" class="form-input" min="0" placeholder="e.g. 10,000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="calculate-btn" onclick="calculatePension()">
+                        <span class="loading">
+                            <div class="spinner"></div>
+                            Calculating...
+                        </span>
+                        <span class="btn-text">
+                            <i class="fas fa-chart-line"></i>
+                            Calculate My Pension
+                        </span>
+                    </button>
+
+                    <div class="error-message" id="error-message"></div>
+                </div>
+
+                <div class="results-section" id="results-section">
+                    <div class="results-header">
+                        <h2><i class="fas fa-chart-pie"></i> Your Pension Projection at Age 60</h2>
+                        <p>Based on current contributions and market assumptions</p>
+                    </div>
+
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <h3><i class="fas fa-shield-alt"></i> Tier II (NSSF)</h3>
+                            <div class="result-item">
+                                <span class="result-label">Lump Sum at Retirement</span>
+                                <span class="result-value" id="tier2-lump"></span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Monthly Pension</span>
+                                <span class="result-value highlight" id="tier2-monthly"></span>
+                            </div>
+                        </div>
+
+                        <div class="result-card">
+                            <h3><i class="fas fa-plus-circle"></i> Voluntary Contributions</h3>
+                            <div class="result-item">
+                                <span class="result-label">Lump Sum at Retirement</span>
+                                <span class="result-value" id="voluntary-lump"></span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Monthly Pension</span>
+                                <span class="result-value highlight" id="voluntary-monthly"></span>
+                            </div>
+                        </div>
+
+                        <div class="result-card total-card">
+                            <h3><i class="fas fa-trophy"></i> Total Benefits</h3>
+                            <div class="result-item">
+                                <span class="result-label">Total Lump Sum</span>
+                                <span class="result-value" id="total-lump"></span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Total Monthly Pension</span>
+                                <span class="result-value" id="total-monthly"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="assumptions">
+                        <h4><i class="fas fa-info-circle"></i> Calculation Assumptions</h4>
+                        <ul>
+                            <li>Annual investment return: 10% (compounded monthly)</li>
+                            <li>Retirement age: 60 years</li>
+                            <li>Annuity conversion factor: 0.0065 per month</li>
+                            <li>Tier II contributions: 12% of salary (capped at KES 72,000)</li>
+                            <li>Calculations are estimates and actual results may vary</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatKES(amount) {
+            return 'KES ' + amount.toLocaleString('en-KE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+            
+            setTimeout(() => {
+                errorDiv.classList.remove('show');
+            }, 5000);
+        }
+
+        function showLoading(show) {
+            const loading = document.querySelector('.loading');
+            const btnText = document.querySelector('.btn-text');
+            const btn = document.querySelector('.calculate-btn');
+            
+            if (show) {
+                loading.classList.add('show');
+                btnText.style.display = 'none';
+                btn.disabled = true;
+            } else {
+                loading.classList.remove('show');
+                btnText.style.display = 'flex';
+                btn.disabled = false;
+            }
+        }
+
+        function calculatePension() {
+            // Clear previous results and errors
+            document.getElementById('results-section').classList.remove('show');
+            document.getElementById('error-message').classList.remove('show');
+            
+            // Show loading state
+            showLoading(true);
+            
+            // Simulate calculation delay for better UX
+            setTimeout(() => {
+                performCalculation();
+                showLoading(false);
+            }, 1000);
+        }
+
+        function performCalculation() {
+            const retirementAge = 60;
+            const annualReturnRate = 0.10; // 10% annual return
+            const monthlyReturn = annualReturnRate / 12;
+            const annuityFactor = 0.0065; // Typical for age 60
+            const tier2Rate = 0.12; // 6% employee + 6% employer
+
+            // Get inputs
+            const age = parseInt(document.getElementById('age').value);
+            const salary = parseFloat(document.getElementById('salary').value);
+            const voluntary = parseFloat(document.getElementById('voluntary').value);
+
+            // Validation
+            if (isNaN(age) || isNaN(salary) || isNaN(voluntary)) {
+                showError('Please fill in all fields with valid numbers.');
+                return;
+            }
+
+            if (age < 18 || age >= 60) {
+                showError('Age must be between 18 and 59 years.');
+                return;
+            }
+
+            if (salary <= 0) {
+                showError('Monthly salary must be greater than zero.');
+                return;
+            }
+
+            if (voluntary < 0) {
+                showError('Voluntary contribution cannot be negative.');
+                return;
+            }
+
+            const monthsToRetire = (retirementAge - age) * 12;
+            
+            // Tier II capped at 72,000 salary
+            const pensionableSalary = Math.min(salary, 72000);
+            const monthlyTier2 = pensionableSalary * tier2Rate;
+
+            // Accumulate Tier II
+            let tier2Total = 0;
+            for (let i = 0; i < monthsToRetire; i++) {
+                tier2Total += monthlyTier2;
+                tier2Total *= (1 + monthlyReturn);
+            }
+
+            // Accumulate Voluntary
+            let voluntaryTotal = 0;
+            for (let i = 0; i < monthsToRetire; i++) {
+                voluntaryTotal += voluntary;
+                voluntaryTotal *= (1 + monthlyReturn);
+            }
+
+            // Compute monthly pensions at retirement
+            const monthlyPensionTier2 = tier2Total * annuityFactor;
+            const monthlyPensionVoluntary = voluntaryTotal * annuityFactor;
+
+            // Totals
+            const totalLumpSum = tier2Total + voluntaryTotal;
+            const totalMonthlyPension = monthlyPensionTier2 + monthlyPensionVoluntary;
+
+            // Display results
+            document.getElementById('tier2-lump').textContent = formatKES(tier2Total);
+            document.getElementById('tier2-monthly').textContent = formatKES(monthlyPensionTier2);
+            document.getElementById('voluntary-lump').textContent = formatKES(voluntaryTotal);
+            document.getElementById('voluntary-monthly').textContent = formatKES(monthlyPensionVoluntary);
+            document.getElementById('total-lump').textContent = formatKES(totalLumpSum);
+            document.getElementById('total-monthly').textContent = formatKES(totalMonthlyPension);
+
+            // Show results with animation
+            document.getElementById('results-section').classList.add('show');
+            
+            // Scroll to results
+            document.getElementById('results-section').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Add input event listeners for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    // Clear error when user starts typing
+                    document.getElementById('error-message').classList.remove('show');
+                });
+                
+                // Add enter key support
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        calculatePension();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
